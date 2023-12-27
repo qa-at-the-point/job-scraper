@@ -10,6 +10,8 @@ packages = [{ include = "job_scraper" }]
 python = "^3.10"
 requests = "^2.31.0"
 python-dotenv = "^1.0.0"
+beautifulsoup4 = "^4.12.2"
+pyleniumio = "^1.20.0"
 
 [tool.poetry.group.dev.dependencies]
 pytest = "^7.4.3"
