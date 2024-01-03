@@ -1,24 +1,13 @@
-from typing import List, Optional
+from typing import List
 
 from bs4 import BeautifulSoup
-from pydantic import BaseModel
 from pylenium.driver import Pylenium
+
+from jobs.models import Job
 
 
 ORIGIN = "https://indeed.com"
 REMOTE_QA_ENGINEER = "https://www.indeed.com/jobs?q=Software+QA+Engineer&sc=0kf%3Aattr%28DSQF7%29%3B"
-
-
-class Job(BaseModel):
-    origin: str = ORIGIN
-    title: str
-    company: str
-    location: str
-    description: str
-    salary: Optional[str]
-    remote: Optional[str]
-    job_type: Optional[str]
-    apply_link: Optional[str]
 
 
 def parse_job_results(page_source: str) -> List[Job]:
@@ -57,6 +46,7 @@ def parse_job_results(page_source: str) -> List[Job]:
 
         jobs.append(
             Job(
+                origin=ORIGIN,
                 title=title,
                 company=company,
                 salary=salary,
