@@ -1,3 +1,5 @@
+""" Slack Block Builder Kit: https://app.slack.com/block-kit-builder """
+
 from typing import Dict, List
 
 import requests
@@ -51,12 +53,5 @@ def create_jobs_payload(jobs: List[Job]) -> Dict:
 def post_jobs_to_channel(jobs: List[Job]) -> Response:
     """Post a list of jobs to the Slack Channel."""
     payload = create_jobs_payload(jobs)
-    response = requests.post(config.SLACK_WEBHOOK_URL, json=payload)
-    return response
-
-
-def post_to_channel(message: str) -> Response:
-    """Post a message to the Slack Channel."""
-    payload = {"text": message}
     response = requests.post(config.SLACK_WEBHOOK_URL, json=payload)
     return response

@@ -10,7 +10,3 @@ def test_job_extraction(py: Pylenium):
 
 def test_pagination(py: Pylenium):
     pass
-
-
-def test_rank_relevant_jobs():
-    pass

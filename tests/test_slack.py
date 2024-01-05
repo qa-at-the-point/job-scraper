@@ -167,12 +167,6 @@ def test_create_jobs_payload():
 
 
 @pytest.mark.skipif(slack.config.SLACK_WEBHOOK_URL.endswith("cL4oP"), reason="Don't test with public channel")
-def test_slack_post_to_channel():
-    response = slack.post_to_channel("Hello, World!")
-    assert response.ok
-
-
-@pytest.mark.skipif(slack.config.SLACK_WEBHOOK_URL.endswith("cL4oP"), reason="Don't test with public channel")
 def test_slack_post_to_jobs_with_blocks():
     response = slack.post_jobs_to_channel(JOBS)
     assert response.ok
