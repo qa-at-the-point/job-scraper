@@ -16,7 +16,6 @@ HEADER_BLOCK = {
                 "text": ":wave: Hello! Below are today's open Job Postings that I've gathered. There may be missing info or posts that are not relevant.\n\n:bug: You can log any bugs or issues here:\nhttps://github.com/qa-at-the-point/job-scraper/issues",
             },
         },
-        {"type": "divider"},
         {
             "type": "header",
             "text": {
@@ -25,6 +24,7 @@ HEADER_BLOCK = {
                 "emoji": True,
             },
         },
+        {"type": "divider"},
     ]
 }
 
@@ -32,13 +32,9 @@ HEADER_BLOCK = {
 def create_job_block(job: Job) -> Dict:
     return {
         "type": "section",
-        "text": {"type": "mrkdwn", "text": f"*{job.title}*\n\n🏢 {job.company}\n\n📍 {job.location}\n\n💸 {job.salary}"},
-        "accessory": {
-            "type": "button",
-            "text": {"type": "plain_text", "text": "Visit", "emoji": True},
-            "value": "click_me_123",  # TODO: Create a dynamic value
-            "url": job.apply_link,
-            "action_id": "button-action",
+        "text": {
+            "type": "mrkdwn",
+            "text": f"*<{job.apply_link}|{job.title} at {job.company}>*\n\n📍 {job.location}\n\n💸 {job.salary}",
         },
     }
 
@@ -57,7 +53,6 @@ def post_jobs_to_channel(jobs: List[Job]) -> Response:
     payload = create_jobs_payload(jobs)
     response = requests.post(config.SLACK_WEBHOOK_URL, json=payload)
     return response
-
 
 
 def post_to_channel(message: str) -> Response:

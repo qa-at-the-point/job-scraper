@@ -159,8 +159,6 @@ def test_create_job_block():
     assert job.salary in text
 
     assert block["type"] == "section"
-    assert block["accessory"]["type"] == "button"
-    assert block["accessory"]["url"] == job.apply_link
 
 
 def test_create_jobs_payload():
