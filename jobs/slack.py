@@ -15,7 +15,7 @@ HEADER_BLOCK = {
             "type": "section",
             "text": {
                 "type": "mrkdwn",
-                "text": ":wave: Hello! Below are today's open Job Postings that I've gathered. There may be missing info or posts that are not relevant.\n\n:bug: You can log any bugs or issues here:\nhttps://github.com/qa-at-the-point/job-scraper/issues",
+                "text": ":wave: Hello! Below are this week's open Job Postings that I've gathered. There may be missing info since each poster is different.\n\n:bug: You can log any bugs or issues here:\nhttps://github.com/qa-at-the-point/job-scraper/issues",
             },
         },
         {
