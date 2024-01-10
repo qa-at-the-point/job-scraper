@@ -62,7 +62,15 @@ def parse_job_results(page_source: str) -> List[Job]:
 
 def scrape(py: Pylenium, search_url: str = REMOTE_QA_ENGINEER) -> List[Job]:
     py.visit(search_url)
-    # TODO: Add pagination
-    source = py.webdriver.page_source
-    jobs = parse_job_results(source)
+    pagination = py.find("[aria-label='pagination'] a")
+    num_pages = len(pagination) - 1  # Last element is "Next"
+    jobs = []
+
+    for i in range(num_pages):
+        if i != 0: # if not on first page, click the next page
+            page = py.get(f"[data-testid='pagination-page-{i + 1}']")
+            page.click()
+        source = py.webdriver.page_source
+        jobs.extend(parse_job_results(source))
+
     return jobs
