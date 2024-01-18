@@ -134,7 +134,7 @@ def test_create_job_block():
 
 def test_create_jobs_payload():
     payload = slack.create_jobs_payload(JOBS)
-    assert len(payload["blocks"]) == 16
+    assert len(payload["blocks"]) == 17
 
 
 @pytest.mark.skipif(slack.config.SLACK_WEBHOOK_URL.endswith("cL4oP"), reason="Don't test with public channel")
