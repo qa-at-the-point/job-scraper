@@ -1,5 +1,6 @@
 # Custom
 poetry.lock
+*.db
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

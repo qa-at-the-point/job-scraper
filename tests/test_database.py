@@ -1,6 +1,6 @@
 import pytest
 
-from jobs import slack
+from jobs import database
 from jobs.models import Job
 
 
@@ -119,26 +119,33 @@ JOBS = [
     ),
 ]
 
+TEST_DB = "test_database.db"
 
-def test_create_job_block():
-    job = JOBS[0]
-    block = slack.markdown_block(f"🔸 *<{job.share_link}|{job.title} at {job.company}>*")
-
-    text = block["text"]["text"]
-    assert job.share_link in text
-    assert job.title in text
-    assert job.company in text
-
-    assert block["type"] == "section"
+@pytest.fixture(scope="module")
+def db():
+    database.create(TEST_DB)
+    yield
+    database.delete(TEST_DB)
 
 
-def test_create_jobs_payload():
-    payload = slack.create_jobs_payload(JOBS)
-    assert len(payload["blocks"]) == 16
+def test_insert_and_query_indeed_jobs(db):
+    database.insert_indeed_jobs(JOBS, TEST_DB)
+    jobs = database.query_indeed_jobs("SELECT * FROM indeed_jobs", TEST_DB)
+    assert len(jobs) == len(JOBS)
 
 
-@pytest.mark.skipif(slack.config.SLACK_WEBHOOK_URL.endswith("cL4oP"), reason="Don't test with public channel")
-def test_slack_post_to_jobs_with_blocks():
-    payload = slack.create_jobs_payload(JOBS)
-    response = slack.post_to_channel(payload)
-    assert response.ok
+def test_create_and_delete_database():
+    test_db = "temp.db"
+    database.create(test_db)
+    assert database.exists(test_db)
+    database.delete(test_db)
+    assert not database.exists(test_db)
+
+
+def test_cannot_delete_non_db_file():
+    with pytest.raises(ValueError):
+        database.delete("not_a_db_file.txt")
+
+
+def test_delete_doesnt_raise_error_if_db_doesnt_exist():
+    database.delete("does_not_exist.db")

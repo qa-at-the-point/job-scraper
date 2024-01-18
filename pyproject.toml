@@ -15,6 +15,7 @@ pyleniumio = "^1.20.0"
 langchain = "^0.0.354"
 openai = "^1.6.1"
 notebook = "^7.0.6"
+langchain-openai = "^0.0.2.post1"
 
 [tool.poetry.group.dev.dependencies]
 pytest = "^7.4.3"

@@ -5,5 +5,7 @@
   "python.defaultInterpreterPath": "./.venv/bin/python",
   "ruff.enable": true,
   "ruff.fixAll": true,
-  "ruff.lint.run": "onSave"
+  "ruff.lint.run": "onSave",
+  "editor.defaultFormatter": "charliermarsh.ruff",
+  "editor.formatOnSave": true
 }

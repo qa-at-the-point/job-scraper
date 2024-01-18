@@ -3,14 +3,17 @@ from typing import Dict, List
 
 from langchain.chains import LLMChain
 from langchain.prompts import PromptTemplate
-from langchain.chat_models import ChatOpenAI
+from langchain_openai import ChatOpenAI
 
 from jobs import config
 from jobs.models import Job
 
-
 TEMPLATE = """
-    Goal: Given the list of Jobs, return only the jobs that are relevant to Software Testers, QA Engineers, or Test Automation Engineers (SDET). Return ONLY the relevant list in JSON format.
+    Goal:
+
+    Given the list of Jobs, return only the jobs that are relevant to Software Testers, QA Engineers, or Test Automation Engineers (SDET).
+    Do your best to order them from junior to senior roles.
+    Return ONLY the relevant list in JSON format.
 
     JSON model format for Job:
 
@@ -40,12 +43,22 @@ PROMPT = PromptTemplate(template=TEMPLATE, input_variables=["jobs"])
 
 
 def get_relevant_jobs(jobs: List[Job]) -> str:
+    """Use AI to filter out irrelevant jobs and return the response from the AI.
+
+    The response from the AI is a string that contains the JSON data.
+    """
     llm = ChatOpenAI(
         openai_api_key=config.OPENAI_API_KEY, temperature=0, model_name="gpt-4"
     ).bind()  # may need "gpt-4-32k"
     llm_chain = LLMChain(prompt=PROMPT, llm=llm)
 
     dumped_jobs = [job.model_dump() for job in jobs]
+
+    # Remove unnecessary data from jobs so we don't exceed Token Limit
+    for job in dumped_jobs:
+        del job["origin"]
+        del job["share_link"]
+
     response = llm_chain.run(dumped_jobs)
     return response
 

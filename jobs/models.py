@@ -8,7 +8,13 @@ class Job(BaseModel):
     title: str
     company: str
     location: str
-    description: str
+    share_link: str
+
+
+class GoogleJob(Job):
+    origin: str = "https://google.com"
+
+
+class IndeedJob(Job):
+    origin: str = "https://indeed.com"
     salary: Optional[str]
-    job_type: Optional[str]
-    apply_link: Optional[str]
