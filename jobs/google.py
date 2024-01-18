@@ -39,12 +39,7 @@ def parse_job_results(py: Pylenium) -> List[GoogleJob]:
             job.pop(0)  # remove the logo character if it has one
 
         parsed_jobs.append(
-            GoogleJob(
-                title=job[0],
-                company=job[1],
-                location=job[2],
-                share_link=share_search_results_link
-            )
+            GoogleJob(title=job[0], company=job[1], location=job[2], share_link=share_search_results_link)
         )
 
     return parsed_jobs
@@ -55,4 +50,5 @@ def scrape(py: Pylenium, search_url: str = SOFTWARE_QA_ENGINEER_IN_UTAH) -> List
     py.getx("//a[contains(., 'more jobs')]").click()
 
     jobs = parse_job_results(py)
+    py.quit()
     return jobs

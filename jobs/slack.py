@@ -67,6 +67,28 @@ def create_jobs_payload(jobs: List[Job]) -> Dict:
     return payload
 
 
+def create_google_jobs_payload(jobs: List[Job]) -> Dict:
+    """Creates the entire Slack Blocks payload for posting Google Jobs to Slack."""
+    payload = {
+        "blocks": [
+            markdown_block(
+                f"""
+                And here is a sample of the jobs I found with Google Jobs.\nYou can continue to search and filter by using the link below:
+                \n:link: {jobs[0].share_link}
+                """
+            )
+        ]
+    }
+    google_header = header_block("Utah-based Jobs from Google")
+    payload["blocks"].append(google_header)
+    payload["blocks"].append(divider_block())
+
+    for job in jobs:
+        markdown = markdown_block(f"🔸 *{job.title} at {job.company}*")
+        payload["blocks"].append(markdown)
+    return payload
+
+
 def post_to_channel(payload: Dict) -> Response:
     """Post a Slack Blocks payload to the Slack Channel."""
     response = requests.post(config.SLACK_WEBHOOK_URL, json=payload)
