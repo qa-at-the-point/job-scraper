@@ -110,7 +110,8 @@ def query_indeed_jobs(query: str, filename: str = SQLITE_FILENAME) -> List[Job]:
     """
     results = execute(query, filename)
     jobs = [
-        IndeedJob(title=row[1], company=row[2], location=row[3], share_link=row[4], salary=row[5]) for row in results
+        IndeedJob(origin=row[1], title=row[2], company=row[3], location=row[4], share_link=row[5], salary=row[6])
+        for row in results
     ]
     return jobs
 
@@ -141,7 +142,9 @@ def query_google_jobs(query: str, filename: str = SQLITE_FILENAME) -> List[Googl
         ```
     """
     results = execute(query, filename)
-    jobs = [GoogleJob(title=row[1], company=row[2], location=row[3], share_link=row[4]) for row in results]
+    jobs = [
+        GoogleJob(origin=row[1], title=row[2], company=row[3], location=row[4], share_link=row[5]) for row in results
+    ]
     return jobs
 
 
@@ -155,7 +158,7 @@ def query_relevant_jobs(query: str, filename: str = SQLITE_FILENAME) -> List[Job
         ```
     """
     results = execute(query, filename)
-    jobs = [Job(title=row[1], company=row[2], location=row[3], share_link=row[4]) for row in results]
+    jobs = [Job(origin=row[1], title=row[2], company=row[3], location=row[4], share_link=row[5]) for row in results]
     return jobs
 
 

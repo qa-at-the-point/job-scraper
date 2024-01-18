@@ -4,7 +4,7 @@ from pydantic import BaseModel
 
 
 class Job(BaseModel):
-    origin: str
+    origin: Optional[str]
     title: str
     company: str
     location: str
